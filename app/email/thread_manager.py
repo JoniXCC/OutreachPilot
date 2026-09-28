@@ -76,8 +76,11 @@ def extract_return_date(text: str, today: date) -> date | None:
     for match in _DATE_HINT.finditer(text or ""):
         candidate = match.group(1).strip(" .,")
         try:
-            parsed = date_parser.parse(candidate, dayfirst=True, fuzzy=True,
-                                       default=datetime(today.year, today.month, today.day)).date()
+            if re.fullmatch(r"\d{4}-\d{2}-\d{2}", candidate):
+                parsed = date.fromisoformat(candidate)  # ISO is never day-first
+            else:
+                parsed = date_parser.parse(candidate, dayfirst=True, fuzzy=True,
+                                           default=datetime(today.year, today.month, today.day)).date()
         except (ValueError, OverflowError):
             continue
         if parsed < today and (today - parsed).days > 30:
