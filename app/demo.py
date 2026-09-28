@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from sqlalchemy.orm import Session
 
 from app.config.settings import Settings
-from app.database.models import Campaign, CampaignStatus, LeadStatus
+from app.database.models import Campaign, CampaignStatus, LeadStatus, MessageKind
 from app.database.repositories import CampaignRepository, MessageRepository, SuppressionRepository
 from app.email.demo_mailbox import DemoMailbox
 from app.leads.importer import LeadInput
@@ -131,7 +131,8 @@ def run_demo_flow(session: Session, settings: Settings) -> DemoReport:
     session.commit()
     # In the demo the operator approves everything; in real use this happens in the dashboard.
     for message in MessageRepository(session).pending_approval(campaign.id):
-        svc.approvals.approve(message)
+        if message.kind == MessageKind.INITIAL:  # suggested replies stay with the human
+            svc.approvals.approve(message)
     sent = svc.sender.process_queue().sent
 
     replies = 0
