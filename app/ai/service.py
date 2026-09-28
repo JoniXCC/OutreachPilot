@@ -52,7 +52,7 @@ class AIService:
         self.session = session
         self.primary = primary
         self.fallback = fallback
-        self.cache_enabled = cache_enabled and session is not None
+        self.cache_enabled = cache_enabled and session is not None and primary.cacheable
 
     @property
     def provider_label(self) -> str:

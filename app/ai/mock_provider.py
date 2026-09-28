@@ -28,6 +28,12 @@ def parse_prompt(prompt: str) -> tuple[str, dict[str, str], str]:
     return task, fields, block.group(1) if block else ""
 
 
+def _with_article(noun: str) -> str:
+    if noun.lower().startswith(("a ", "an ", "the ", "our ")):
+        return noun
+    return ("an " if noun[:1].lower() in "aeiou" else "a ") + noun
+
+
 def _val(fields: dict[str, str], key: str, default: str = "") -> str:
     value = fields.get(key, "")
     return default if value in ("", "none") else value
@@ -35,6 +41,7 @@ def _val(fields: dict[str, str], key: str, default: str = "") -> str:
 
 class MockProvider(AIProvider):
     name = "mock"
+    cacheable = False
 
     def __init__(self, model: str = "mock-1", temperature: float = 0.0, max_tokens: int = 600) -> None:
         super().__init__(model, temperature, max_tokens)
@@ -92,7 +99,7 @@ class MockProvider(AIProvider):
             reason = "Light personalisation: company name and role only (no research available)."
         body = (
             f"{opener}\n\n"
-            f"We built {product}. {_val(f, 'value_proposition', '').rstrip('.')}. "
+            f"We built {_with_article(product)}. {_val(f, 'value_proposition', '').rstrip('.')}. "
             f"The idea is to take repetitive work off your team's plate without changing how you "
             f"already operate, so people can focus on the conversations that actually need them.\n\n"
             f"{_val(f, 'call_to_action', 'Would a short call next week be useful?')}"
@@ -153,5 +160,5 @@ class MockProvider(AIProvider):
             body = (f"Thanks for getting back to me. Happy to share more about "
                     f"{_val(f, 'product', 'what we do')}: {_val(f, 'value_proposition', '').rstrip('.')}. "
                     f"I'll put together the specific details you asked about rather than guess here. "
-                    f"Would a 15-minute call later this week work to walk you through it?")
+                    f"Would a short call later this week work to walk you through it?")
         return {"body": body}

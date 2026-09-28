@@ -92,6 +92,8 @@ def test_extract_json_object_invalid(raw):
 
 # ------------------------------------------------------------------ AIService
 class CountingProvider(MockProvider):
+    cacheable = True  # behaves like a remote provider for cache tests
+
     def __init__(self, fail_with: Exception | None = None, responses: list[str] | None = None):
         super().__init__()
         self.calls = 0

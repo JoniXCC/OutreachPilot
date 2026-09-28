@@ -295,7 +295,9 @@ class EmailGenerator:
             body = ("Thanks for your reply. I'll get back to you shortly with the details."
                     if kind == MessageKind.REPLY else
                     "Thanks for letting me know. Could you point me to the right person for this?")
-        quality = check_quality(None, body, campaign.value_proposition, min_words=10, max_words=160)
+        facts = " ".join([campaign.product_name, campaign.product_description, campaign.value_proposition,
+                          campaign.call_to_action, reply.body])
+        quality = check_quality(None, body, facts, min_words=10, max_words=160)
         auto = (kind == MessageKind.REFERRAL_REQUEST and not self.settings.safe_mode
                 and campaign.auto_send and not quality.serious)
         message = EmailMessage(

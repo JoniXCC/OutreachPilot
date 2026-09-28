@@ -53,6 +53,8 @@ class AIResponse:
 # --------------------------------------------------------------------------- interface
 class AIProvider(ABC):
     name: str = "base"
+    #: Remote providers cost quota, so their answers are cached. Local deterministic ones aren't.
+    cacheable: bool = True
 
     def __init__(self, model: str, temperature: float = 0.3, max_tokens: int = 600) -> None:
         self.model = model

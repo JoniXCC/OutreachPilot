@@ -76,6 +76,9 @@ class Settings(BaseSettings):
         "AI-Sales-Outreach-Research/1.0 (+portfolio project; low-volume homepage fetch)"
     )
 
+    # --- Optional REST API -------------------------------------------------------------
+    api_token: SecretStr | None = None
+
     # --- Logging ---------------------------------------------------------------------
     log_level: str = "INFO"
     log_file: Path = Path("data/logs/app.log")
@@ -83,6 +86,13 @@ class Settings(BaseSettings):
     @field_validator("ai_fallback_provider", mode="before")
     @classmethod
     def _empty_fallback_is_none(cls, value: object) -> object:
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
+
+    @field_validator("gemini_api_key", "groq_api_key", "api_token", mode="before")
+    @classmethod
+    def _empty_secret_is_none(cls, value: object) -> object:
         if isinstance(value, str) and not value.strip():
             return None
         return value
@@ -121,7 +131,7 @@ class Settings(BaseSettings):
     def public_view(self) -> dict[str, object]:
         """Settings safe to display in the dashboard (secrets masked)."""
         data = self.model_dump()
-        for key in ("gemini_api_key", "groq_api_key"):
+        for key in ("gemini_api_key", "groq_api_key", "api_token"):
             data[key] = "configured" if getattr(self, key) else "not set"
         return {k: (str(v) if isinstance(v, Path) else v) for k, v in data.items()}
 
