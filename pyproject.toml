@@ -1,0 +1,11 @@
+[project]
+name = "ai-sales-outreach"
+version = "1.0.0"
+description = "Free, autonomous-but-supervised B2B cold-email outreach agent (Gmail API + Gemini/Groq + SQLite + Streamlit)"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
+filterwarnings = ["ignore::DeprecationWarning:google.*"]
