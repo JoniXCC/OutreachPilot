@@ -56,7 +56,7 @@ class ReplyProcessor:
             from_email=message.from_email, subject=message.subject[:255], body=latest,
             received_at=message.date,
         )
-        self.session.add(reply)
+        lead.replies.append(reply)
         self.session.flush()
         log_event("reply_received", lead_id=lead.id, reply_id=reply.id)
 

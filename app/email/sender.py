@@ -148,6 +148,7 @@ class SendService:
 
         thread_id, in_reply_to, references = (None, None, None)
         if message.kind != MessageKind.INITIAL:
+            self.session.refresh(lead, ["messages", "replies"])  # other processes may have added rows
             thread_id, in_reply_to, references = reply_threading(lead, message)
         try:
             sent = self.gmail.send(message.to_email, message.subject, message.body,

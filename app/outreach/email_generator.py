@@ -178,7 +178,7 @@ class EmailGenerator:
             ai_generated=ai_generated, status=status, approved_by=approved_by,
             approved_at=utcnow() if approved_by else None,
         )
-        self.session.add(message)
+        lead.messages.append(message)
         if can_transition_lead(lead.status, LeadStatus.READY):
             lead.status = LeadStatus.READY
         self.session.flush()
@@ -258,7 +258,7 @@ class EmailGenerator:
             approved_at=utcnow() if approved_by else None,
             gmail_thread_id=lead.gmail_thread_id, in_reply_to=previous.rfc_message_id,
         )
-        self.session.add(message)
+        lead.messages.append(message)
         self.session.flush()
         log_event("followup_generated", lead_id=lead.id, message_id=message.id, number=number, status=status)
         return message
@@ -308,7 +308,7 @@ class EmailGenerator:
             approved_by="auto" if auto else None, approved_at=utcnow() if auto else None,
             gmail_thread_id=reply.gmail_thread_id, in_reply_to=reply.rfc_message_id, reply_id=reply.id,
         )
-        self.session.add(message)
+        lead.messages.append(message)
         self.session.flush()
         log_event("email_generated", lead_id=lead.id, message_id=message.id, kind=kind, category=category)
         return message
