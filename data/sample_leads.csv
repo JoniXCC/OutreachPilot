@@ -1,0 +1,7 @@
+company_name,website,contact_name,contact_role,email,industry,location
+Northstar Dental,https://northstar-dental.example,Sarah Klein,Practice Manager,sarah.klein@northstar-dental.example,Dental clinic,Berlin
+BrightDesk Software,https://brightdesk.example,Tom Becker,Head of Customer Success,tom@brightdesk.example,B2B SaaS,Hamburg
+Harbor Analytics,https://harbor-analytics.example,Mia Lopez,COO,mia.lopez@harbor-analytics.example,Data consultancy,Munich
+Atlas Fitness,https://atlas-fitness.example,Jonas Weber,Owner,jonas@atlas-fitness.example,Fitness studio,Cologne
+Duplicate Row,https://northstar-dental.example,Sarah Klein,Practice Manager,SARAH.KLEIN@northstar-dental.example,Dental clinic,Berlin
+Broken Row,,Nobody,Owner,not-an-email,Unknown,Nowhere

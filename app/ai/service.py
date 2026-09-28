@@ -72,7 +72,7 @@ class AIService:
                     self._record(self.primary, purpose, None, cached=True)
                     return data
                 except json.JSONDecodeError:
-                    pass
+                    pass  # corrupt cache entry -> fall through to a live call
 
         errors: list[str] = []
         for provider in self._providers():

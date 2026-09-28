@@ -86,7 +86,7 @@ class InboxMonitor:
         try:
             own_address = self.gmail.profile_email().lower()
         except GmailError:
-            pass
+            pass  # only used to skip our own messages; ids of sent mail are checked too
 
         for ref in new:
             try:

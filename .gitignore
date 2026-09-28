@@ -33,3 +33,6 @@ Thumbs.db
 
 # Streamlit local secrets
 .streamlit/secrets.toml
+
+# Local tooling / runtime
+data/locks/

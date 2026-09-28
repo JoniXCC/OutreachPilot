@@ -271,7 +271,7 @@ class GoogleGmailClient(GmailClient):
                 if header.get("name", "").lower() == "message-id":
                     rfc_id = header.get("value", rfc_id)
         except GmailError:
-            pass
+            pass  # keep the Message-ID we generated; threading still works
         return SentMessage(result["id"], result.get("threadId", ""), rfc_id)
 
     def list_recent_inbound(self, days: int) -> list[MessageRef]:
