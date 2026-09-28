@@ -1,4 +1,4 @@
-# AI Sales Outreach Agent
+# OutreachPilot — AI Sales Outreach Agent
 
 **A supervised, autonomous B2B cold-email system that runs for €0/month.**
 
