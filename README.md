@@ -26,11 +26,19 @@ interested leads to a human. Everything is tracked in SQLite and a Streamlit das
 
 ## Screenshots
 
-> _Placeholder - add your own after running the demo (`python run.py demo` then `python run.py dashboard`)._
+All screenshots show demo mode: fictional companies on reserved `.example` domains, nothing is emailed.
 
-| Overview | Email approval queue | Replies & classification |
-|---|---|---|
-| `docs/screenshots/overview.png` | `docs/screenshots/queue.png` | `docs/screenshots/inbox.png` |
+**Overview** - pipeline metrics, lead statuses, reply outcomes and one-click pipeline steps
+
+![Overview dashboard](docs/screenshots/overview.png)
+
+**Email approval queue** - AI-drafted replies wait for a human: edit, approve, reject or regenerate
+
+![Email approval queue](docs/screenshots/queue.png)
+
+**Inbox & replies** - every reply classified, with confidence and whether a rule or the AI decided
+
+![Replies and classification](docs/screenshots/inbox.png)
 
 ## Features
 

@@ -41,7 +41,7 @@ from app.services import Services  # noqa: E402
 from app.utils.validators import is_valid_email  # noqa: E402
 from dashboard import charts  # noqa: E402
 
-st.set_page_config(page_title="AI Sales Outreach Agent", page_icon="📬", layout="wide")
+st.set_page_config(page_title="OutreachPilot", page_icon="📬", layout="wide")
 
 settings = get_settings()
 setup_logging(settings.log_level, settings.resolve_path(settings.log_file))
@@ -667,13 +667,20 @@ PAGES = {
 }
 
 
+# Deep links, e.g. http://localhost:8501/?page=queue
+PAGE_SLUGS = ["overview", "campaigns", "leads", "queue", "inbox", "attention", "analytics",
+              "compliance", "logs"]
+
+
 def main() -> None:
-    st.sidebar.title("📬 Outreach Agent")
+    st.sidebar.title("📬 OutreachPilot")
     pending = len(MessageRepository(session).pending_approval())
     review = len(LeadRepository(session).list(human_review=True))
     labels = [f"{name} ({pending})" if name == "✉️ Email Queue" and pending else
               f"{name} ({review})" if name == "🙋 Needs Attention" and review else name for name in PAGES]
-    choice = st.sidebar.radio("Navigate", labels, label_visibility="collapsed")
+    slug = st.query_params.get("page", "overview")
+    start = PAGE_SLUGS.index(slug) if slug in PAGE_SLUGS else 0
+    choice = st.sidebar.radio("Navigate", labels, index=start, label_visibility="collapsed")
     page = PAGES[list(PAGES)[labels.index(choice)]]
     campaign = campaign_filter()
     st.sidebar.divider()
